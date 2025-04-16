@@ -1,4 +1,47 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const body = document.body;
+
+    const menuOverlay = document.createElement('div');
+    menuOverlay.className = 'menu-overlay';
+    body.appendChild(menuOverlay);
+
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+        body.classList.toggle('menu-open');
+    });
+
+    menuOverlay.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        body.classList.remove('menu-open');
+    });
+
+    const navLinks = document.querySelectorAll('nav ul li a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            body.classList.remove('menu-open');
+
+            const targetId = link.getAttribute('href');
+            if (targetId.startsWith('#')) {
+                e.preventDefault();
+
+                setTimeout(() => {
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 300);
+            }
+        });
+    });
     const binaryBackground = document.querySelector('.binary-background');
     const hackerChars = ['0', '1', '$', '#', '*', '@', '%', '&', '^', '!', '>', '<', '/', '\\', '{', '}', '[', ']', '|', '=', '+', '-', '_', '~'];
 
@@ -32,6 +75,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const applyGlitchEffect = () => {
         const title = document.querySelector('h1.typing');
         if (title) {
+            const adjustTypingAnimation = () => {
+                const screenWidth = window.innerWidth;
+
+                if (screenWidth <= 480) {
+                    title.style.fontSize = '1.3rem';
+                    title.style.letterSpacing = '1px';
+                } else if (screenWidth <= 768) {
+                    title.style.fontSize = '1.8rem';
+                    title.style.letterSpacing = '1px';
+                } else {
+                    title.style.fontSize = '2.5rem';
+                    title.style.letterSpacing = '2px';
+                }
+            };
+
+            adjustTypingAnimation();
+            window.addEventListener('resize', adjustTypingAnimation);
+
             setTimeout(() => {
                 title.classList.add('glitch-effect');
                 setInterval(() => {
