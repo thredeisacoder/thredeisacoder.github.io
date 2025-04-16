@@ -1,16 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const binaryBackground = document.querySelector('.binary-background');
-
     const hackerChars = ['0', '1', '$', '#', '*', '@', '%', '&', '^', '!', '>', '<', '/', '\\', '{', '}', '[', ']', '|', '=', '+', '-', '_', '~'];
 
     const createBinary = () => {
         const span = document.createElement('span');
-
         const char = hackerChars[Math.floor(Math.random() * hackerChars.length)];
-
         span.textContent = char;
         span.style.left = `${Math.random() * 100}vw`;
-        span.style.animationDuration = `${Math.random() * 5 + 3}s`; 
+        span.style.animationDuration = `${Math.random() * 5 + 3}s`;
 
         const size = Math.random();
         if (size < 0.7) {
@@ -37,14 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (title) {
             setTimeout(() => {
                 title.classList.add('glitch-effect');
-
                 setInterval(() => {
                     title.style.textShadow = '0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em 0.05em 0 rgba(0, 0, 255, 0.75)';
                     setTimeout(() => {
                         title.style.textShadow = '';
                     }, 100);
                 }, 5000);
-            }, 3000); 
+            }, 3000);
         }
     };
 
@@ -66,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (charIndex < currentText.length) {
                     currentParagraph.textContent += currentText.charAt(charIndex);
                     charIndex++;
-                    setTimeout(() => typeParagraph(paragraphIndex, charIndex), Math.random() * 20 + 10); 
+                    setTimeout(() => typeParagraph(paragraphIndex, charIndex), Math.random() * 20 + 10);
                 } else {
                     setTimeout(() => typeParagraph(paragraphIndex + 1), 500);
                 }
@@ -86,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const screenWidth = window.innerWidth;
-    const interval = screenWidth > 768 ? 80 : 150; 
+    const interval = screenWidth > 768 ? 80 : 150;
 
     setInterval(createBinary, interval);
     applyGlitchEffect();
@@ -115,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (form) {
             form.addEventListener('submit', (e) => {
-                e.preventDefault(); 
+                e.preventDefault();
 
                 const name = document.getElementById('name').value;
                 const email = document.getElementById('email').value;
@@ -128,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (name && email && message) {
                         formStatus.className = 'form-status success';
                         formStatus.innerHTML = `<i class="fas fa-check-circle"></i> Thank you, ${name}! Your message has been sent successfully.`;
-
                         form.reset();
 
                         setTimeout(() => {
@@ -138,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         formStatus.className = 'form-status error';
                         formStatus.innerHTML = `<i class="fas fa-exclamation-circle"></i> Please fill in all required fields.`;
                     }
-                }, 1500); 
+                }, 1500);
             });
         }
     };
