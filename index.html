@@ -15,11 +15,19 @@
 <body>
     <div class="binary-background"></div>
     <header>
-        <nav>
+        <div class="menu-toggle" id="menu-toggle">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <nav id="nav-menu">
             <ul>
                 <li><a href="#home"><i class="fas fa-terminal"></i> Home</a></li>
                 <li><a href="#about"><i class="fas fa-user-secret"></i> About</a></li>
                 <li><a href="#projects"><i class="fas fa-code"></i> Projects</a></li>
+                <li><a href="#ctf-platforms"><i class="fas fa-flag"></i> CTF</a></li>
                 <li><a href="#skills"><i class="fas fa-laptop-code"></i> Skills</a></li>
                 <li><a href="#contact"><i class="fas fa-envelope-open-text"></i> Contact</a></li>
             </ul>
@@ -33,7 +41,9 @@
             <div class="profile-image-container">
                 <img src="assets/avatar.png" alt="Profile Image" class="profile-image">
             </div>
-            <h1 class="typing">Welcome to My Portfolio</h1>
+            <div class="title-container">
+                <h1 class="typing">Welcome to My Portfolio</h1>
+            </div>
             <p>I am a 4th year student specializing in<br> <span class="highlight">Web Penetration Testing</span></p>
             <div class="terminal-prompt">
                 <span class="prompt">root@hacker:~# </span><span class="command">cat profile.txt</span>
