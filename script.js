@@ -1,4 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // SoundCloud player initialization for both tracks
+    let firstTrackElement = document.querySelector('#soundcloud-player-first');
+    let secondTrackElement = document.querySelector('#soundcloud-player-second');
+    
+    let firstWidget = SC.Widget(firstTrackElement);
+    let secondWidget = SC.Widget(secondTrackElement);
+    
+    // Configure first SoundCloud player (Xin Chào Việt Nam Remix)
+    firstWidget.bind(SC.Widget.Events.READY, function() {
+        // Set volume (0.0 to 1.0)
+        firstWidget.setVolume(5);
+        
+        // Play the first track automatically
+        firstWidget.play();
+        
+        // When the first track ends, play the second track
+        firstWidget.bind(SC.Widget.Events.FINISH, function() {
+            secondWidget.play();
+        });
+    });
+    
+    // Configure second SoundCloud player
+    secondWidget.bind(SC.Widget.Events.READY, function() {
+        // Set volume
+        secondWidget.setVolume(5);
+        
+        // When the second track ends, play the first track again to create a loop between both tracks
+        secondWidget.bind(SC.Widget.Events.FINISH, function() {
+            firstWidget.seekTo(0);
+            firstWidget.play();
+        });
+    });
+
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
     const body = document.body;
