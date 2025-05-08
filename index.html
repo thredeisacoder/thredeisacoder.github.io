@@ -11,8 +11,18 @@
     <meta name="keywords" content="web pentester, ethical hacking, security, penetration testing, student portfolio, cybersecurity">
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔒</text></svg>">
+    <!-- SoundCloud API -->
+    <script src="https://w.soundcloud.com/player/api.js"></script>
 </head>
 <body>
+    <!-- Hidden SoundCloud iframes -->
+    <div style="display: none;">
+        <!-- First track that will play: Xin Chào Việt Nam Remix -->
+        <iframe id="soundcloud-player-first" width="0" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1957049395&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+        
+        <!-- Second track that will play after the first one ends -->
+        <iframe id="soundcloud-player-second" width="0" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1408695505&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+    </div>
     <div class="binary-background"></div>
     <header>
         <div class="menu-toggle" id="menu-toggle">
