@@ -95,6 +95,9 @@ class DynamicPanels {
     updateNetworkTraffic() {
         const bandwidthIn = document.getElementById('bandwidth-in');
         const bandwidthOut = document.getElementById('bandwidth-out');
+        const packetsIn = document.getElementById('packets-in');
+        const packetsOut = document.getElementById('packets-out');
+        const networkLatency = document.getElementById('network-latency');
         
         if (!bandwidthIn) return;
         
@@ -104,6 +107,22 @@ class DynamicPanels {
         
         bandwidthIn.textContent = inSpeed + ' MB/s';
         bandwidthOut.textContent = outSpeed + ' KB/s';
+        
+        // Update network stats with realistic values
+        if (packetsIn) {
+            const packetsInValue = Math.floor(Math.random() * 1000000 + 1000000);
+            packetsIn.textContent = packetsInValue.toLocaleString();
+        }
+        
+        if (packetsOut) {
+            const packetsOutValue = Math.floor(Math.random() * 800000 + 800000);
+            packetsOut.textContent = packetsOutValue.toLocaleString();
+        }
+        
+        if (networkLatency) {
+            const latency = Math.floor(Math.random() * 30 + 30);
+            networkLatency.textContent = latency + 'ms';
+        }
         
         // Update connection statuses
         this.updateConnectionStatuses();

@@ -692,10 +692,39 @@ ${status.foundFlags === status.totalFlags ? '🎉 CHALLENGE COMPLETED! 🎉' : '
                 }
             },
 
-            exit: {
-                description: "Exit terminal simulation",
+            logout: {
+                description: "Logout and return to login screen",
                 execute: () => {
-                    return "Connection terminated. Access logged. Have a nice day, hacker.";
+                    if (window.loginScreen) {
+                        window.loginScreen.show();
+                        // Clear terminal and reset state
+                        if (window.terminal) {
+                            window.terminal.reset();
+                        }
+                        if (window.visualEffects) {
+                            window.visualEffects.cleanup();
+                        }
+                        window.currentUser = null;
+                    }
+                    return "Logging out... Session terminated.";
+                }
+            },
+
+            exit: {
+                description: "Exit terminal and return to login screen",
+                execute: () => {
+                    if (window.loginScreen) {
+                        window.loginScreen.show();
+                        // Clear terminal and reset state
+                        if (window.terminal) {
+                            window.terminal.reset();
+                        }
+                        if (window.visualEffects) {
+                            window.visualEffects.cleanup();
+                        }
+                        window.currentUser = null;
+                    }
+                    return "Connection terminated. Returning to login screen...";
                 }
             }
         };

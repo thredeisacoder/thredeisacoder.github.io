@@ -15,11 +15,15 @@ class LoginScreen {
     }
 
     init() {
+        // Remove any existing event listeners
+        document.removeEventListener('keydown', (event) => this.handleInput(event));
+        
+        // Add new event listener
+        document.addEventListener('keydown', (event) => this.handleInput(event));
+        
         setTimeout(() => {
             this.startManualLogin();
         }, 1000);
-        
-        document.addEventListener('keydown', (event) => this.handleInput(event));
     }
 
     startManualLogin() {
@@ -163,6 +167,9 @@ class LoginScreen {
     handleInput(event) {
         if (this.loginState === 'username') {
             if (event.key === 'Enter') {
+                // Remove any existing keydown event listeners from previous sessions
+                document.removeEventListener('keydown', this.handleInput);
+                
                 // If username is provided, validate it
                 if (this.userInputUsername.trim()) {
                     if (this.userInputUsername.length < 3) {
@@ -215,6 +222,48 @@ class LoginScreen {
             this.messageElement.textContent = originalMessage;
             this.messageElement.className = originalClass;
         }, 1500);
+    }
+
+    reset() {
+        // Reset all state variables
+        this.loginState = 'username';
+        this.currentUsername = '';
+        this.currentPassword = '';
+        this.attemptCount = 0;
+        this.userInputUsername = '';
+
+        // Reset UI elements
+        if (this.usernameElement) {
+            this.usernameElement.textContent = '';
+        }
+        if (this.passwordElement) {
+            this.passwordElement.textContent = '';
+        }
+        if (this.messageElement) {
+            this.messageElement.textContent = '';
+        }
+        if (this.passwordLine) {
+            this.passwordLine.classList.add('hidden');
+        }
+
+        // Remove any existing event listeners
+        document.removeEventListener('keydown', (event) => this.handleInput(event));
+    }
+
+    show() {
+        const loginScreen = document.getElementById('login-screen');
+        if (loginScreen) {
+            // Reset all states first
+            this.reset();
+            
+            // Show login screen
+            loginScreen.classList.remove('hidden');
+            loginScreen.classList.remove('fade-out');
+            loginScreen.style.display = '';
+            
+            // Initialize login screen
+            this.init();
+        }
     }
 }
 

@@ -8,6 +8,7 @@ class Terminal {
         this.commandHistory = [];
         this.historyIndex = -1;
         this.currentInput = '';
+        this.hasShownWelcome = false;
     }
 
     init() {
@@ -16,7 +17,17 @@ class Terminal {
         this.setupInputHandling();
         this.initEffects();
         this.setupControlButtons();
-        this.addWelcomeMessage();
+        
+        // Only show welcome message first time
+        if (!this.hasShownWelcome) {
+            this.addWelcomeMessage();
+            this.hasShownWelcome = true;
+        }
+
+        // Focus the input
+        if (this.terminalInput) {
+            this.terminalInput.focus();
+        }
     }
 
     addWelcomeMessage() {
@@ -49,8 +60,20 @@ class Terminal {
 
     setupInputHandling() {
         if (this.terminalInput) {
+            // Remove any existing event listeners
+            this.terminalInput.removeEventListener('keydown', (event) => this.handleInput(event));
+            
+            // Add new event listener
             this.terminalInput.addEventListener('keydown', (event) => this.handleInput(event));
-            this.terminalInput.focus();
+            
+            // Ensure focus stays on input
+            this.terminalInput.addEventListener('blur', () => {
+                // Only refocus if we're not on the login screen
+                if (!document.getElementById('login-screen').classList.contains('hidden')) {
+                    return;
+                }
+                setTimeout(() => this.terminalInput.focus(), 10);
+            });
         }
     }
 
@@ -317,6 +340,23 @@ class Terminal {
     clearCommandHistory() {
         this.commandHistory = [];
         this.historyIndex = -1;
+    }
+
+    reset() {
+        this.clearTerminal();
+        this.clearCommandHistory();
+        this.hasShownWelcome = false;
+        
+        // Remove input focus when resetting
+        if (this.terminalInput) {
+            this.terminalInput.blur();
+            this.terminalInput.value = '';
+        }
+        
+        // Remove any existing event listeners
+        if (this.terminalInput) {
+            this.terminalInput.removeEventListener('keydown', (event) => this.handleInput(event));
+        }
     }
 }
 
