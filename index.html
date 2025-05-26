@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Threde Nolan - Web Penetration Tester Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Meta tags for SEO and display -->
-    <meta name="description" content="Portfolio of a 4th year student specializing in web penetration testing and ethical hacking.">
+    <meta name="description" content="Portfolio of a student specializing in web penetration testing and ethical hacking.">
     <meta name="keywords" content="web pentester, ethical hacking, security, penetration testing, student portfolio, cybersecurity">
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔒</text></svg>">
@@ -15,183 +15,319 @@
     <script src="https://w.soundcloud.com/player/api.js"></script>
 </head>
 <body>
-    <!-- Hidden SoundCloud iframes -->
-    <div style="display: none;">
-        <!-- First track that will play: Xin Chào Việt Nam Remix -->
-        <iframe id="soundcloud-player-first" width="0" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1957049395&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
-        
-        <!-- Second track that will play after the first one ends -->
-        <iframe id="soundcloud-player-second" width="0" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1408695505&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="hack-overlay">
+            <!-- Main Alert Banner -->
+            <div class="alert-banner">
+                <div class="alert-text">SYSTEM BREACH DETECTED</div>
+                <div class="alert-subtext">UNAUTHORIZED ACCESS IN PROGRESS</div>
+            </div>
+            
+            <!-- Center Logo and Status -->
+            <div class="hack-center">
+                <div class="skull-container">
+                    <div class="skull-icon">
+                        <i class="fas fa-skull"></i>
+
+                    </div>
+                    <div class="skull-glow"></div>
+                </div>
+                <div class="hack-status-main">SECURITY COMPROMISED</div>
+                <div class="hack-timestamp" id="hack-timestamp">2025-01-03 15:42:17</div>
+            </div>
+            
+            <!-- Scrolling Messages -->
+            <div class="hack-messages-container">
+                <div class="hack-messages" id="hack-messages">
+                    <div class="hack-line">>>> FIREWALL BYPASSED - ADMIN PRIVILEGES ESCALATED</div>
+                    <div class="hack-line">>>> INJECTING MALICIOUS PAYLOAD INTO MAIN SERVER</div>
+                    <div class="hack-line">>>> EXTRACTING SENSITIVE DATA FROM DATABASE</div>
+                    <div class="hack-line">>>> DISABLING SECURITY PROTOCOLS</div>
+                    <div class="hack-line">>>> ESTABLISHING BACKDOOR CONNECTION</div>
+                    <div class="hack-line">>>> PORTFOLIO ACCESS GRANTED - WELCOME TO THE SYSTEM</div>
+                </div>
+            </div>
+            
+            <!-- Progress and System Info -->
+            <div class="hack-footer">
+                <div class="system-info">
+                    <div class="info-line">TARGET: PORTFOLIO-SERVER-01</div>
+                    <div class="info-line">IP: 192.168.1.100:443</div>
+                    <div class="info-line">STATUS: COMPROMISED</div>
+                </div>
+                <div class="hack-progress-container">
+                    <div class="hack-progress-label">BREACH PROGRESS</div>
+                    <div class="hack-progress-bar">
+                        <div class="hack-progress-fill"></div>
+                    </div>
+                    <div class="hack-progress-text">0%</div>
+                </div>
+            </div>
+            
+            <!-- Glitch Effects -->
+            <div class="glitch-overlay"></div>
+            <div class="scan-lines"></div>
+            <div class="static-noise"></div>
+        </div>
     </div>
-    <div class="binary-background"></div>
-    <header>
-        <div class="menu-toggle" id="menu-toggle">
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+
+    <!-- Login Screen -->
+    <div class="login-screen hidden" id="login-screen">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="login-system-info">
+                    <div class="system-name">THREDE NOLAN'S SECURE WORKSTATION</div>
+                    <div class="system-build">Build 20241203-CLASSIFIED</div>
+                    <div class="system-kernel">Linux threde-workstation 5.15.0-secure #1 SMP</div>
+                </div>
+            </div>
+            
+            <div class="login-body">
+                <div class="login-banner">
+                    <pre class="login-ascii">
+ █████╗  ██████╗ ██████╗███████╗███████╗███████╗
+██╔══██╗██╔════╝██╔════╝██╔════╝██╔════╝██╔════╝
+███████║██║     ██║     █████╗  ███████╗███████╗
+██╔══██║██║     ██║     ██╔══╝  ╚════██║╚════██║
+██║  ██║╚██████╗╚██████╗███████╗███████║███████║
+╚═╝  ╚═╝ ╚═════╝ ╚═════╝╚══════╝╚══════╝╚══════╝
+                                                
+        ATTEMPTING UNAUTHORIZED ACCESS...
+                    </pre>
+                </div>
+                
+                <div class="login-form">
+                    <div class="login-prompt">
+                        <div class="login-line">
+                            <span class="login-label">Login:</span>
+                            <span class="login-username" id="login-username"></span>
+                            <span class="login-cursor">_</span>
+                        </div>
+                        <div class="login-line hidden" id="password-line">
+                            <span class="login-label">Password:</span>
+                            <span class="login-password" id="login-password"></span>
+                            <span class="login-cursor">_</span>
+                        </div>
+                        <div class="login-message" id="login-message"></div>
+                    </div>
+                </div>
+                
+                <div class="login-footer">
+                    <div class="login-info">
+                        <div>Last login: Wed Dec  3 15:42:13 2024 from 192.168.1.50</div>
+                        <div>◦ TIP: Type your username and press Enter to login</div>
+                        <div>◦ Or press Enter without typing to watch auto-hack simulation</div>
+                        <div>◦ This system contains classified penetration testing data.</div>
+                        <div>◦ All access attempts are being monitored and logged.</div>
+                    </div>
+                </div>
             </div>
         </div>
-        <nav id="nav-menu">
-            <ul>
-                <li><a href="#home"><i class="fas fa-terminal"></i> Home</a></li>
-                <li><a href="#about"><i class="fas fa-user-secret"></i> About</a></li>
-                <li><a href="#projects"><i class="fas fa-code"></i> Projects</a></li>
-                <li><a href="#ctf-platforms"><i class="fas fa-flag"></i> CTF</a></li>
-                <li><a href="#skills"><i class="fas fa-laptop-code"></i> Skills</a></li>
-                <li><a href="#contact"><i class="fas fa-envelope-open-text"></i> Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="home">
-            <div class="terminal-header">
-                <span class="terminal-title">root@hacker:~# ./welcome.sh</span>
-            </div>
-            <div class="profile-image-container">
-                <img src="assets/avatar.png" alt="Profile Image" class="profile-image">
-            </div>
-            <div class="title-container">
-                <h1 class="typing">Welcome to My Portfolio</h1>
-            </div>
-            <p>I am a 4th year student specializing in<br> <span class="highlight">Web Penetration Testing</span></p>
-            <div class="terminal-prompt">
-                <span class="prompt">root@hacker:~# </span><span class="command">cat profile.txt</span>
-            </div>
-        </section>
+        
+        <!-- Login Background Effects -->
+        <div class="login-background">
+            <div class="login-grid"></div>
+            <div class="login-scan"></div>
+        </div>
+    </div>
 
-        <section id="about">
-            <div class="terminal-header">
-                <span class="terminal-title">root@hacker:~# ./about.sh</span>
-            </div>
-            <h2>About Me <span class="blink">_</span></h2>
-            <p>I am Threde Nolan, a passionate 4th year Computer Science student with a specialization in cybersecurity and web penetration testing. My journey into the world of ethical hacking began during my freshman year when I discovered the fascinating balance between breaking and securing digital systems.</p>
-            <p>Currently pursuing my degree, I have developed strong skills in identifying and exploiting web vulnerabilities, implementing security measures, and conducting thorough security assessments. I've participated in several CTF competitions, including HackTheBox and TryHackMe challenges, consistently ranking in the top percentiles.</p>
-            <p>Outside of academics, I actively contribute to my university's cybersecurity club where I lead workshops on web application security and mentor junior students. I'm also an active participant in bug bounty programs, having responsibly disclosed vulnerabilities to several organizations.</p>
-            <p>My goal is to bridge the gap between theoretical security concepts and practical implementation, helping organizations build more resilient web applications. I am constantly learning new techniques and tools to stay ahead in the ever-evolving field of web security.</p>
-        </section>
+    <!-- Main Portfolio Content -->
+    <div id="main-content" class="main-content hidden">
+        <!-- Cyberpunk Background Effects -->
+        <div class="cyber-background">
+            <div class="grid-overlay"></div>
+            <div class="scan-overlay"></div>
+            <div class="particle-field"></div>
+        </div>
 
-        <section id="projects">
-            <div class="terminal-header">
-                <span class="terminal-title">root@hacker:~# ./projects.sh</span>
-            </div>
-            <h2>Projects <span class="blink">_</span></h2>
-            <ul>
-                <li>
-                    <h3>Web Vulnerability Scanner</h3>
-                    <p><i class="fas fa-search"></i> Developed a custom web vulnerability scanner that detects common OWASP Top 10 vulnerabilities including SQL injection, XSS, and CSRF.</p>
-                    <div class="project-tech">Python | Flask | JavaScript | OWASP ZAP API</div>
-                </li>
-                <li>
-                    <h3>CTF Challenges Platform</h3>
-                    <p><i class="fas fa-flag"></i> Created a platform hosting web security challenges for my university's cybersecurity club, featuring various difficulty levels and real-world vulnerability scenarios.</p>
-                    <div class="project-tech">Docker | PHP | MySQL | JavaScript | Nginx</div>
-                </li>
-                <li>
-                    <h3>Bug Bounty Findings</h3>
-                    <p><i class="fas fa-bug"></i> Actively participating in bug bounty programs with multiple validated findings, including authentication bypasses, stored XSS, and IDOR vulnerabilities.</p>
-                    <div class="project-tech">Burp Suite | OWASP | Web Security | Responsible Disclosure</div>
-                </li>
-                <li>
-                    <h3>Secure Code Review Tool</h3>
-                    <p><i class="fas fa-code"></i> Built a tool that scans web application code for security vulnerabilities and suggests secure coding practices based on OWASP guidelines.</p>
-                    <div class="project-tech">Python | Static Analysis | SAST | Git Integration</div>
-                </li>
-            </ul>
-        </section>
-
-        <section id="ctf-platforms">
-            <div class="terminal-header">
-                <span class="terminal-title">root@hacker:~# ./ctf_profiles.sh</span>
-            </div>
-            <h2>CTF Platforms <span class="blink">_</span></h2>
-            <p class="section-intro">I actively participate in various Capture The Flag competitions to sharpen my cybersecurity skills and stay current with the latest security challenges.</p>
-
-            <div class="ctf-platforms-grid">
-                <a href="https://ctftime.org/team/350749" class="ctf-platform-card" target="_blank">
-                    <div class="ctf-platform-header">
-                        <i class="fas fa-flag"></i> CTFtime
+        <!-- Main Layout Container -->
+        <div class="main-layout">
+            <!-- System Monitor Panel (Top Right) -->
+            <div class="system-monitor">
+                <div class="panel-header">
+                    <span class="panel-icon">📊</span>
+                    <span class="panel-title">SYSTEM MONITOR</span>
+                    <div class="panel-controls">
+                        <div class="panel-control minimize"></div>
+                        <div class="panel-control close"></div>
                     </div>
-                    <div class="ctf-platform-content">
-                        <p>Team profile and competition history</p>
-                        <div class="ctf-link">ctftime.org/team/350749</div>
+                </div>
+                <div class="panel-content">
+                    <div class="monitor-section">
+                        <div class="monitor-title">SYSTEM RESOURCES</div>
+                        <div class="resource-item">
+                            <span class="resource-label">CPU Usage:</span>
+                            <div class="resource-bar">
+                                <div class="resource-fill cpu-fill" id="cpu-usage"></div>
+                            </div>
+                            <span class="resource-value" id="cpu-value">78%</span>
+                        </div>
+                        <div class="resource-item">
+                            <span class="resource-label">Memory:</span>
+                            <div class="resource-bar">
+                                <div class="resource-fill memory-fill" id="memory-usage"></div>
+                            </div>
+                            <span class="resource-value" id="memory-value">84%</span>
+                        </div>
+                        <div class="resource-item">
+                            <span class="resource-label">Network:</span>
+                            <div class="resource-bar">
+                                <div class="resource-fill network-fill" id="network-usage"></div>
+                            </div>
+                            <span class="resource-value" id="network-value">45%</span>
+                        </div>
                     </div>
-                </a>
-
-                <a href="https://play.picoctf.org/users/threde" class="ctf-platform-card" target="_blank">
-                    <div class="ctf-platform-header">
-                        <i class="fas fa-puzzle-piece"></i> picoCTF
+                    <div class="monitor-section">
+                        <div class="monitor-title">TARGET INFO</div>
+                        <div class="info-line">Host: threde-workstation</div>
+                        <div class="info-line">IP: 192.168.1.100</div>
+                        <div class="info-line">OS: Ubuntu 20.04.3 LTS</div>
+                        <div class="info-line">Kernel: 5.4.0-74-generic</div>
+                        <div class="info-line">Uptime: 7d 14h 23m</div>
                     </div>
-                    <div class="ctf-platform-content">
-                        <p>Educational CTF platform by Carnegie Mellon University</p>
-                        <div class="ctf-link">play.picoctf.org/users/threde</div>
-                    </div>
-                </a>
-
-                <a href="https://www.root-me.org/Threde_Nolan?lang=en#4eb0378899ae0cc92e2262b69f434490" class="ctf-platform-card" target="_blank">
-                    <div class="ctf-platform-header">
-                        <i class="fas fa-terminal"></i> Root-Me
-                    </div>
-                    <div class="ctf-platform-content">
-                        <p>Hacking and information security learning platform</p>
-                        <div class="ctf-link">root-me.org/Threde_Nolan</div>
-                    </div>
-                </a>
+                </div>
             </div>
-        </section>
 
-        <section id="skills">
-            <div class="terminal-header">
-                <span class="terminal-title">root@hacker:~# ./skills.sh</span>
+            <!-- Activity Log Panel (Bottom Right) -->
+            <div class="activity-log">
+                <div class="panel-header">
+                    <span class="panel-icon">📋</span>
+                    <span class="panel-title">ACTIVITY TRACE</span>
+                    <div class="panel-controls">
+                        <div class="panel-control minimize"></div>
+                        <div class="panel-control close"></div>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div class="log-container" id="activity-log">
+                        <div class="log-entry">[15:42:13] System breach initiated</div>
+                        <div class="log-entry">[15:42:14] Firewall bypass successful</div>
+                        <div class="log-entry">[15:42:15] Privilege escalation complete</div>
+                        <div class="log-entry">[15:42:16] Backdoor established</div>
+                        <div class="log-entry">[15:42:17] User authentication bypassed</div>
+                        <div class="log-entry">[15:42:18] Terminal access granted</div>
+                    </div>
+                </div>
             </div>
-            <h2>Skills <span class="blink">_</span></h2>
-            <ul>
-                <li><i class="fas fa-code"></i> Programming: Python, JavaScript, PHP, SQL, Bash</li>
-                <li><i class="fas fa-shield-alt"></i> Web Security: OWASP Top 10, XSS, CSRF, SQLi, Authentication Vulnerabilities, API Security</li>
-                <li><i class="fas fa-tools"></i> Tools: Burp Suite, OWASP ZAP, Metasploit, Nmap, Nikto, SQLmap</li>
-                <li><i class="fas fa-server"></i> Web Technologies: HTTP/HTTPS, REST APIs, JWT, OAuth, Web Servers (Apache, Nginx)</li>
-                <li><i class="fas fa-bug"></i> Bug Bounty: Vulnerability Discovery, Proof of Concept Development, Responsible Disclosure</li>
-                <li><i class="fas fa-network-wired"></i> Networking: TCP/IP, DNS, Proxies, Web Application Firewalls</li>
-                <li><i class="fas fa-laptop-code"></i> Development: Git, Docker, CI/CD, Web Development (HTML, CSS, JavaScript)</li>
-            </ul>
-        </section>
 
-        <section id="contact">
-            <div class="terminal-header">
-                <span class="terminal-title">root@hacker:~# ./contact.sh</span>
+            <!-- Network Traffic Panel (Middle Right) -->
+            <div class="network-traffic">
+                <div class="panel-header">
+                    <span class="panel-icon">🌐</span>
+                    <span class="panel-title">NETWORK TRAFFIC</span>
+                    <div class="panel-controls">
+                        <div class="panel-control minimize"></div>
+                        <div class="panel-control close"></div>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div class="traffic-section">
+                        <div class="traffic-title">ACTIVE CONNECTIONS</div>
+                        <div class="connection-item">
+                            <span class="connection-status active"></span>
+                            <span class="connection-info">192.168.1.50:4444 → threde:22</span>
+                        </div>
+                        <div class="connection-item">
+                            <span class="connection-status active"></span>
+                            <span class="connection-info">10.0.0.1:8080 → threde:443</span>
+                        </div>
+                        <div class="connection-item">
+                            <span class="connection-status warning"></span>
+                            <span class="connection-info">Unknown:31337 → threde:3306</span>
+                        </div>
+                    </div>
+                    <div class="traffic-section">
+                        <div class="traffic-title">BANDWIDTH</div>
+                        <div class="bandwidth-item">
+                            <span class="bandwidth-label">↓ In:</span>
+                            <span class="bandwidth-value" id="bandwidth-in">1.2 MB/s</span>
+                        </div>
+                        <div class="bandwidth-item">
+                            <span class="bandwidth-label">↑ Out:</span>
+                            <span class="bandwidth-value" id="bandwidth-out">245 KB/s</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h2>Contact <span class="blink">_</span></h2>
-            <form id="contact-form">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" placeholder="Enter your name..." required>
 
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="email@example.com" required>
+            <!-- Terminal Interface -->
+            <div class="terminal-interface">
+                <!-- Terminal Header -->
+                <div class="terminal-header">
+                    <div class="terminal-title">
+                        <span class="terminal-icon">💀</span>
+                        <span class="terminal-name">COMPROMISED_SYSTEM</span>
+                        <span class="separator">@</span>
+                        <span class="terminal-path">THREDE_WORKSTATION</span>
+                    </div>
+                    <div class="terminal-controls">
+                        <div class="control minimize"></div>
+                        <div class="control maximize"></div>
+                        <div class="control close"></div>
+                    </div>
+                </div>
 
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" placeholder="Enter your message..." required></textarea>
+            <!-- Terminal Body -->
+            <div class="terminal-body">
+                <!-- Welcome Message -->
+                <div class="terminal-welcome">
+                    <div class="welcome-line">                                     ████████╗██╗  ██╗██████╗ ███████╗██████╗ ███████╗    ███╗   ██╗ ██████╗ ██╗      █████╗ ███╗   ██╗</div>
+                    <div class="welcome-line">                                     ╚══██╔══╝██║  ██║██╔══██╗██╔════╝██╔══██╗██╔════╝    ████╗  ██║██╔═══██╗██║     ██╔══██╗████╗  ██║</div>
+                    <div class="welcome-line">                                        ██║   ███████║██████╔╝█████╗  ██║  ██║█████╗      ██╔██╗ ██║██║   ██║██║     ███████║██╔██╗ ██║</div>
+                    <div class="welcome-line">                                        ██║   ██╔══██║██╔══██╗██╔══╝  ██║  ██║██╔══╝      ██║╚██╗██║██║   ██║██║     ██╔══██║██║╚██╗██║</div>
+                    <div class="welcome-line">                                        ██║   ██║  ██║██║  ██║███████╗██████╔╝███████╗    ██║ ╚████║╚██████╔╝███████╗██║  ██║██║ ╚████║</div>
+                    <div class="welcome-line">                                        ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝    ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝</div>
+                    <div class="welcome-line">▶ You have gained access to Threde's personal workstation.</div>
+                    <div class="welcome-line">▣ Type 'help' to explore available data and commands.</div>
+                    <div class="welcome-line">◈ Type 'about' to learn more about the target.</div>
+                    <div class="welcome-line">▲ Remember: You are viewing this as an external observer.</div>
+                    <div class="welcome-line"></div>
+                </div>
 
-                <button type="submit">Send <i class="fas fa-paper-plane"></i></button>
+                <!-- Terminal Output -->
+                <div class="terminal-output" id="terminal-output"></div>
 
-                <div id="form-status" class="form-status"></div>
-            </form>
-
-            <div class="social-links">
-                <a href="https://github.com/thredeisacoder" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/threde/" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                <a href="https://www.facebook.com/Threde/" class="social-icon" title="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/_threde.nolan/" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://t.me/Thredee" class="social-icon" title="Telegram"><i class="fab fa-telegram"></i></a>
-                <a href="mailto:anphmvn75@gmail.com" class="social-icon" title="Email"><i class="fas fa-envelope"></i></a>
+                <!-- Terminal Input -->
+                <div class="terminal-input-line">
+                    <span class="terminal-prompt">hacker@threde-system:~$ </span>
+                    <input type="text" class="terminal-input" id="terminal-input" autocomplete="off" spellcheck="false" autofocus>
+                    <span class="terminal-cursor">█</span>
+                </div>
             </div>
-        </section>
-    </main>
 
-    <footer>
-        <p>© 2025 <span class="highlight">Threde Nolan</span>. All rights reserved.</p>
-        <div class="footer-note">Designed with <i class="fas fa-shield-alt"></i> security in mind | <i class="fas fa-graduation-cap"></i> Cyber Security | <i class="fas fa-user-secret"></i> Web Pentester</div>
-    </footer>
+            <!-- Status Bar -->
+            <div class="terminal-status">
+                <div class="status-left">
+                    <span class="status-indicator online"></span>
+                    <span class="status-text">BREACH ACTIVE</span>
+                    <span class="separator">|</span>
+                    <span class="user-info">INTRUDER: ANONYMOUS</span>
+                </div>
+                <div class="status-right">
+                    <span class="timestamp" id="main-timestamp"></span>
+                    <span class="separator">|</span>
+                    <span class="connection-status">BACKDOOR CONNECTION</span>
+                </div>
+            </div>
+        </div>
+        </div>
 
-    <script src="script.js"></script>
+        <!-- Hidden SoundCloud iframes -->
+        <div style="display: none;">
+            <iframe id="soundcloud-player-first" width="0" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1957049395&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+            <iframe id="soundcloud-player-second" width="0" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1408695505&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="js/loading.js"></script>
+    <script src="js/login.js"></script>
+    <script src="js/terminal.js"></script>
+    <script src="js/effects.js"></script>
+    <script src="js/filesystem.js"></script>
+    <script src="js/commands.js"></script>
+    <script src="js/panels.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
