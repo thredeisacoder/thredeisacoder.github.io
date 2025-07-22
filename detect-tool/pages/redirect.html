@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to Detection Tool...</title>
+    
+    <!-- Auto redirect after 3 seconds -->
+    <meta http-equiv="refresh" content="3;url=../index.html">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #000000 100%);
+            color: #00ff00;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Matrix rain background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="10" fill="%23001100" opacity="0.1">01010101010101010101010101</text></svg>') repeat;
+            z-index: -1;
+            animation: matrix 20s linear infinite;
+        }
+        
+        @keyframes matrix {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(100vh); }
+        }
+        
+        .redirect-container {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff00;
+            border-radius: 0;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes borderGlow {
+            0%, 100% { box-shadow: 0 0 5px #00ff00, inset 0 0 5px rgba(0, 255, 0, 0.1); }
+            50% { box-shadow: 0 0 20px #00ff00, inset 0 0 10px rgba(0, 255, 0, 0.2); }
+        }
+        
+        .redirect-container::before {
+            content: '█▓▒░ SYSTEM REDIRECT ░▒▓█';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #00ff00;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+        
+        .redirect-icon {
+            font-size: 4rem;
+            color: #ff0040;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px #ff0040;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .redirect-title {
+            font-size: 2rem;
+            color: #00ff00;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #00ff00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .redirect-message {
+            font-size: 1.2rem;
+            color: #40ff40;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .countdown {
+            font-size: 3rem;
+            color: #ff0040;
+            margin: 20px 0;
+            font-weight: bold;
+            text-shadow: 0 0 15px #ff0040;
+            animation: blink 1s ease-in-out infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
+        }
+        
+        .redirect-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            text-decoration: none;
+            border-radius: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 0 15px #00ff00;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            border-color: #ff0040;
+            color: #ff0040;
+            background: rgba(255, 0, 64, 0.1);
+        }
+        
+        .btn-danger:hover {
+            background: #ff0040;
+            color: #fff;
+            box-shadow: 0 0 15px #ff0040;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 255, 0, 0.2);
+            border-radius: 0;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff00, #40ff40);
+            width: 0%;
+            animation: progress 3s linear forwards;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        @media (max-width: 768px) {
+            .redirect-container {
+                padding: 30px 20px;
+                width: 95%;
+            }
+            
+            .redirect-title {
+                font-size: 1.5rem;
+            }
+            
+            .redirect-message {
+                font-size: 1rem;
+            }
+            
+            .countdown {
+                font-size: 2rem;
+            }
+            
+            .redirect-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <div class="redirect-icon">
+            <i class="fas fa-skull"></i>
+        </div>
+        
+        <div class="redirect-title">
+            ▓▓▓ REDIRECTING TO DETECTION TOOL ▓▓▓
+        </div>
+        
+        <div class="redirect-message">
+            >>> INITIALIZING SECURE CONNECTION TO DARK WEB SCANNER <<<<br>
+            >>> ESTABLISHING ENCRYPTED TUNNEL TO STEALER DATABASES <<<
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        
+        <div class="countdown" id="countdown">3</div>
+        
+        <div class="redirect-message">
+            Automatic redirect in <span id="seconds">3</span> seconds...
+        </div>
+        
+        <div class="redirect-options">
+                            <a href="../index.html" class="btn">
+                    <i class="fas fa-play"></i> Launch Now
+                </a>
+            
+            <a href="embedded.html" class="btn">
+                <i class="fas fa-desktop"></i> Embedded View
+            </a>
+            
+            <a href="../../" class="btn btn-danger">
+                <i class="fas fa-home"></i> Back to Portfolio
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let countdown = 3;
+        const countdownElement = document.getElementById('countdown');
+        const secondsElement = document.getElementById('seconds');
+        
+        const timer = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            secondsElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(timer);
+                countdownElement.textContent = '🚀';
+                secondsElement.textContent = '0';
+                
+                // Try multiple redirect options
+                setTimeout(() => {
+                    // Primary redirect
+                    try {
+                        window.location.href = '../index.html';
+                    } catch (e) {
+                        // Fallback redirect
+                        window.location.href = 'embedded.html';
+                    }
+                }, 500);
+            }
+        }, 1000);
+        
+        // Add some extra logging
+        console.log('%c▓▓▓ REDIRECT PAGE LOADED ▓▓▓', 'color: #00ff00; font-weight: bold;');
+        console.log('Redirecting to Info Stealer Detection Tool in 3 seconds...');
+    </script>
+</body>
+</html> 

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 Info Stealer Detection Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <i class="fas fa-skull header-icon"></i>
+                <h1>[Info Stealer Detection Tool]</h1>
+                <p>>>> SCANNING FOR COMPROMISED CREDENTIALS IN DARK WEB DATABASE <<<</p>
+                <div class="terminal-cursor">█</div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="search-section">
+                <div class="search-form">
+                    <div class="input-group">
+                        <i class="fas fa-terminal input-icon"></i>
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            placeholder="root@cybersec:~$ enter_target_email_or_username..."
+                            autocomplete="off"
+                        >
+                        <button type="button" id="searchBtn" class="search-btn">
+                            <span class="btn-text">[EXECUTE]</span>
+                            <i class="fas fa-play btn-icon"></i>
+                        </button>
+                    </div>
+                    <div class="search-hints">
+                        <span class="hint">
+                            <i class="fas fa-info-circle"></i>
+                            PROTOCOL: email@domain.com || username_target
+                        </span>
+                    </div>
+                </div>
+
+                <div id="loadingSpinner" class="loading-spinner hidden">
+                    <div class="spinner"></div>
+                    <p id="loadingText1">▸ ACCESSING DARK WEB DATABASES...</p>
+                    <p id="loadingText2">▸ CROSS-REFERENCING STEALER LOGS...</p>
+                    <p id="loadingText3">▸ ANALYZING THREAT INTELLIGENCE...</p>
+                </div>
+            </div>
+
+            <div id="resultsSection" class="results-section hidden">
+                <div class="results-header">
+                    <h2>[SCAN_RESULTS]</h2>
+                    <button id="newSearchBtn" class="new-search-btn">
+                        <i class="fas fa-plus"></i>
+                        NEW_SCAN
+                    </button>
+                </div>
+                
+                <div id="resultsContent" class="results-content">
+                    <!-- Kết quả sẽ được hiển thị ở đây -->
+                </div>
+            </div>
+
+            <div id="errorSection" class="error-section hidden">
+                <div class="error-content">
+                    <i class="fas fa-exclamation-triangle error-icon"></i>
+                    <h3>[ERROR_DETECTED]</h3>
+                    <p id="errorMessage"></p>
+                    <button id="retryBtn" class="retry-btn">
+                        <i class="fas fa-redo"></i>
+                        RETRY_SCAN
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>▸ POWERED BY Threde Nolan • CREATED FOR CYBERSEC_DEFENSE ◂</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,35 @@
+# Jekyll configuration for GitHub Pages
+# This enables custom routing for the Info Stealer Detection Tool
+
+# GitHub Pages settings
+plugins:
+  - jekyll-redirect-from
+
+# Custom redirects
+collections:
+  redirects:
+    output: true
+
+# Redirect configuration
+# This will create a redirect from /detect-tool to the detection tool
+redirect_from:
+  - /detect-tool/
+  - /detect-tool
+
+# Site settings for SEO
+title: "Threde Nolan - Cybersecurity Portfolio"
+description: "Professional cybersecurity portfolio featuring penetration testing tools and dark web intelligence"
+url: "https://thredeisacoder.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Exclude files from processing
+exclude:
+  - node_modules/
+  - .git/
+  - .gitignore
+  - README.md
+  - Info-Stealer-Detection-Tool/node_modules/
+  - Info-Stealer-Detection-Tool/package-lock.json 

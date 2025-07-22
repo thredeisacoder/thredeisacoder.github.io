@@ -236,6 +236,13 @@ in underground security research and digital reconnaissance.
 │ Description: Next-gen static analysis framework             │
 │ Classification: [RESTRICTED] - Advanced AI integration      │
 │ Capabilities: Automated exploit discovery, stealth mode     │
+└─────────────────────────────────────────────────────────────┘
+
+┌─ OPERATION: INFO STEALER DETECTION ─────────────────────────┐
+│ Status: [DEPLOYED] - ACTIVE MONITORING                      │
+│ Description: Dark web credential compromise detection       │
+│ Access: <a href="detect-tool/" target="_blank" style="color: #00ff00; text-decoration: underline;">LAUNCH DETECTION TOOL</a>                │
+│ Capabilities: Real-time stealer database scanning           │
 └─────────────────────────────────────────────────────────────┘`;
                 }
             },
@@ -549,6 +556,30 @@ drwxr-xr-x  2 threde threde  4096 Jan  3 15:42 tools/
 
 💡 TIP: Start with 'ls -la' to see hidden files!
 ❓ Type 'help play' for detailed CTF guide`;
+                }
+            },
+
+            'detect-tool': {
+                description: "Launch Info Stealer Detection Tool",
+                execute: () => {
+                    // Open detection tool in new tab
+                    window.open('detect-tool/', '_blank');
+                    return `╔══════════════════════════════════════════════════════════════╗
+║                 LAUNCHING DETECTION TOOL                     ║
+╚══════════════════════════════════════════════════════════════╝
+
+▶ OPERATION: INFO STEALER DETECTION INITIATED
+▶ STATUS: OPENING IN NEW SECURE WINDOW
+
+🔍 Tool launched successfully!
+📊 Monitor dark web credential databases
+🛡️ Detect compromised email addresses and usernames
+⚡ Real-time threat intelligence analysis
+
+▲ If the tool didn't open, check your browser's popup blocker
+▲ Alternative access: <a href="detect-tool/" target="_blank" style="color: #00ff00; text-decoration: underline;">Click here to open manually</a>
+
+💀 Stay vigilant, operative.`;
                 }
             },
 

@@ -198,4 +198,44 @@ The debug panel shows:
 - **Performance Timing**: Load and navigation metrics
 - **User Agent**: Browser and device information
 
-Each module includes proper cleanup methods to prevent memory leaks and ensure smooth performance across all devices. 
+Each module includes proper cleanup methods to prevent memory leaks and ensure smooth performance across all devices.
+
+## 🔍 **Info Stealer Detection Tool Integration**
+
+### **Access Methods**
+
+The portfolio now includes integrated access to the Info Stealer Detection Tool:
+
+1. **Terminal Command**: Type `detect-tool` in the portfolio terminal
+2. **Projects Section**: Click the link in the `projects` command output
+3. **Direct URL**: Access via `/detect-tool/` (clean URL)
+4. **Alternative Pages**: Embedded and redirect versions in `/detect-tool/pages/`
+
+### **Integration Features**
+
+- **Direct Access**: `detect-tool/` - Main detection tool interface
+- **Embedded View**: `detect-tool/pages/embedded.html` - Full iframe integration with controls  
+- **Redirect Page**: `detect-tool/pages/redirect.html` - Animated redirect with countdown
+- **Fallback Options**: Multiple access methods ensure reliability
+
+### **Tool Capabilities**
+
+- 🔍 **Smart Detection**: Automatically identifies email vs username inputs
+- 🎨 **Cyberpunk UI**: Matrix-style hacker interface with terminal effects
+- 📊 **Detailed Reports**: Comprehensive breach analysis and threat intelligence
+- ⚡ **High Performance**: Optimized for speed and reliability
+- 🌐 **API Integration**: Seamless integration with threat intelligence databases
+
+### **Usage Examples**
+
+```bash
+# In portfolio terminal
+> detect-tool
+# Opens detection tool in new tab with secure interface
+
+> projects  
+# Shows all projects including detection tool link
+
+> help
+# Lists all available commands including detect-tool
+``` 

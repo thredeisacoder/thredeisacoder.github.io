@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info Stealer Detection Tool - Threde Nolan</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Advanced cybersecurity tool for detecting compromised credentials in dark web databases">
+    <meta name="keywords" content="info stealer, dark web, cybersecurity, credential detection, malware analysis">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔒</text></svg>">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #00ff00;
+            overflow: hidden;
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #000000 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loading-icon {
+            font-size: 4rem;
+            color: #ff0040;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px #ff0040;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .loading-text {
+            font-size: 1.5rem;
+            color: #00ff00;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #00ff00;
+            animation: blink 1s ease-in-out infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
+        }
+        
+        .loading-subtext {
+            font-size: 1rem;
+            color: #40ff40;
+            text-align: center;
+            opacity: 0.8;
+        }
+        
+        .tool-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background: #000;
+        }
+        
+        .tool-header {
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 2px solid #00ff00;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .tool-title {
+            color: #00ff00;
+            font-weight: bold;
+            text-shadow: 0 0 5px #00ff00;
+        }
+        
+        .tool-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            text-decoration: none;
+            border-radius: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        
+        .btn-danger {
+            border-color: #ff0040;
+            color: #ff0040;
+            background: rgba(255, 0, 64, 0.1);
+        }
+        
+        .btn-danger:hover {
+            background: #ff0040;
+            color: #fff;
+            box-shadow: 0 0 10px #ff0040;
+        }
+        
+        .tool-iframe {
+            width: 100%;
+            height: calc(100vh - 60px);
+            border: none;
+            margin-top: 60px;
+            background: #000;
+        }
+        
+        .error-container {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 60px);
+            margin-top: 60px;
+            background: #000;
+            color: #ff0040;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px #ff0040;
+        }
+        
+        .error-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #ff0040;
+        }
+        
+        .error-message {
+            color: #40ff40;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+        
+        @media (max-width: 768px) {
+            .tool-header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px;
+            }
+            
+            .tool-controls {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .tool-iframe {
+                margin-top: 100px;
+                height: calc(100vh - 100px);
+            }
+            
+            .error-container {
+                margin-top: 100px;
+                height: calc(100vh - 100px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-icon">
+            <i class="fas fa-skull"></i>
+        </div>
+        <div class="loading-text">▓▓▓ INITIALIZING DETECTION TOOL ▓▓▓</div>
+        <div class="loading-subtext">>>> CONNECTING TO DARK WEB DATABASES <<<</div>
+    </div>
+
+    <!-- Tool Container -->
+    <div class="tool-container">
+        <!-- Header -->
+        <div class="tool-header">
+            <div class="tool-title">
+                <i class="fas fa-skull"></i> Info Stealer Detection Tool
+            </div>
+            <div class="tool-controls">
+                <a href="../../" class="btn">
+                    <i class="fas fa-home"></i> Back to Portfolio
+                </a>
+                <button onclick="openExternal()" class="btn">
+                    <i class="fas fa-external-link-alt"></i> Open External
+                </button>
+                <button onclick="refreshTool()" class="btn">
+                    <i class="fas fa-sync"></i> Refresh
+                </button>
+                <button onclick="toggleFullscreen()" class="btn btn-danger">
+                    <i class="fas fa-expand"></i> Fullscreen
+                </button>
+            </div>
+        </div>
+
+        <!-- Tool Iframe -->
+        <iframe 
+            id="toolIframe" 
+            class="tool-iframe" 
+            src="../index.html"
+            title="Info Stealer Detection Tool"
+            loading="lazy">
+        </iframe>
+
+        <!-- Error Container -->
+        <div id="errorContainer" class="error-container">
+            <div class="error-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="error-title">▓▓▓ CONNECTION FAILED ▓▓▓</div>
+            <div class="error-message">
+                Unable to load the Info Stealer Detection Tool.<br>
+                The tool may need to be running locally or accessed via a different method.
+            </div>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                <button onclick="retryLoad()" class="btn">
+                    <i class="fas fa-redo"></i> Retry
+                </button>
+                <button onclick="openExternal()" class="btn">
+                    <i class="fas fa-external-link-alt"></i> Open External
+                </button>
+                <a href="../../" class="btn btn-danger">
+                    <i class="fas fa-arrow-left"></i> Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const loadingScreen = document.getElementById('loadingScreen');
+        const toolIframe = document.getElementById('toolIframe');
+        const errorContainer = document.getElementById('errorContainer');
+
+        // Show loading for 2 seconds
+        setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+        }, 2000);
+
+        // Check if iframe loads successfully
+        toolIframe.onload = function() {
+            console.log('Tool loaded successfully');
+        };
+
+        toolIframe.onerror = function() {
+            console.log('Failed to load tool');
+            showError();
+        };
+
+        // Fallback: Check if iframe is accessible after 5 seconds
+        setTimeout(() => {
+            try {
+                // Try to access iframe content (will fail if not accessible)
+                const iframeDoc = toolIframe.contentDocument || toolIframe.contentWindow.document;
+                if (!iframeDoc || iframeDoc.readyState !== 'complete') {
+                    showError();
+                }
+            } catch (e) {
+                // If we can't access it due to CORS or other issues, that's actually okay
+                // for external content, so we don't show error
+                console.log('Iframe loaded (external content)');
+            }
+        }, 5000);
+
+        function showError() {
+            toolIframe.style.display = 'none';
+            errorContainer.style.display = 'flex';
+        }
+
+        function hideError() {
+            toolIframe.style.display = 'block';
+            errorContainer.style.display = 'none';
+        }
+
+        function retryLoad() {
+            hideError();
+            toolIframe.src = toolIframe.src; // Reload iframe
+        }
+
+        function refreshTool() {
+            toolIframe.src = toolIframe.src; // Reload iframe
+        }
+
+        function openExternal() {
+            // Try different possible URLs
+            const possibleUrls = [
+                '../index.html',
+                '../../detect-tool/',
+                'http://localhost:3000'
+            ];
+            
+            // Open in new tab
+            window.open(possibleUrls[0], '_blank');
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('Error attempting to enable fullscreen:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Handle fullscreen changes
+        document.addEventListener('fullscreenchange', function() {
+            const fullscreenBtn = document.querySelector('.btn-danger');
+            if (document.fullscreenElement) {
+                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i> Exit Fullscreen';
+            } else {
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> Fullscreen';
+            }
+        });
+
+        // Handle ESC key to exit fullscreen
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+        });
+
+        console.log('%c▓▓▓ Info Stealer Detection Tool - Portal Loaded ▓▓▓', 'color: #00ff00; font-weight: bold;');
+    </script>
+</body>
+</html> 
