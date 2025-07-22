@@ -241,7 +241,7 @@ in underground security research and digital reconnaissance.
 ┌─ OPERATION: INFO STEALER DETECTION ─────────────────────────┐
 │ Status: [DEPLOYED] - ACTIVE MONITORING                      │
 │ Description: Dark web credential compromise detection       │
-│ Access: <a href="detect-tool/" target="_blank" style="color: #00ff00; text-decoration: underline;">LAUNCH DETECTION TOOL</a>                │
+│ Access: Type 'detect-tool' command to launch interface      │
 │ Capabilities: Real-time stealer database scanning           │
 └─────────────────────────────────────────────────────────────┘`;
                 }
@@ -577,7 +577,7 @@ drwxr-xr-x  2 threde threde  4096 Jan  3 15:42 tools/
 ⚡ Real-time threat intelligence analysis
 
 ▲ If the tool didn't open, check your browser's popup blocker
-▲ Alternative access: <a href="detect-tool/" target="_blank" style="color: #00ff00; text-decoration: underline;">Click here to open manually</a>
+▲ Alternative access: Navigate to detect-tool/ manually
 
 💀 Stay vigilant, operative.`;
                 }
