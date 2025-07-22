@@ -5,16 +5,10 @@
 plugins:
   - jekyll-redirect-from
 
-# Custom redirects
-collections:
-  redirects:
-    output: true
-
-# Redirect configuration
-# This will create a redirect from /detect-tool to the detection tool
+# Jekyll redirect-from configuration
+# Disable JSON generation to avoid compatibility issues
 redirect_from:
-  - /detect-tool/
-  - /detect-tool
+  json: false
 
 # Site settings for SEO
 title: "Threde Nolan - Cybersecurity Portfolio"
