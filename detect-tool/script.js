@@ -227,7 +227,13 @@ async function handleSearch() {
         displayResults(data, query);
     } catch (error) {
         console.error('▓ SEARCH_ERROR:', error);
-        showError(`>>> SYSTEM_ERROR_DETECTED <<<\n\n${error.message || 'System error detected. This may be due to CORS restrictions or network issues.'}`);
+        
+        // Check if it's a proxy failure error
+        if (error.message && error.message.includes('CORS proxies failed')) {
+            showError(`>>> CONNECTION_FAILURE_DETECTED <<<\n\nERROR: ${error.message}\n\nREASON: All available proxy servers are currently unavailable or blocked.\nSOLUTION: Please try again later or contact system administrator.`);
+        } else {
+            showError(`>>> SYSTEM_ERROR_DETECTED <<<\n\nERROR: ${error.message || 'System error detected. This may be due to CORS restrictions or network issues.'}\n\nPlease check your internet connection and try again.`);
+        }
     } finally {
         setSearchingState(false);
     }
@@ -322,49 +328,14 @@ async function tryWithProxy(originalUrl) {
         }
     }
     
-    // If all proxies fail, try a demo response
-    console.log('All proxies failed, returning demo data');
-    updateLoadingMessage('▸ ALL PROXIES FAILED - SHOWING DEMO DATA...');
+    // If all proxies fail, throw an error
+    console.log('All proxies failed, cannot access API');
+    updateLoadingMessage('▸ ALL PROXIES FAILED - CONNECTION ERROR');
     
     // Add delay to show the message
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    return generateDemoResponse();
-}
-
-// ▓▓▓ DEMO RESPONSE GENERATOR ▓▓▓
-function generateDemoResponse() {
-    return {
-        message: "Demo data - CORS proxies unavailable",
-        stealers: [
-            {
-                stealer_family: "GENERIC_MALWARE",
-                date_compromised: "2025-06-12T10:11:00Z",
-                computer_name: "VIETQUQT-MACB00 (VIET QUOC)",
-                operating_system: "Windows 11 24H2 build 26100 (64 Bit)",
-                ip: "42.118.**.***",
-                malware_path: "C:\\Users\\User\\AppData\\Local\\Temp\\malware.exe",
-                antiviruses: ["Windows Defender", "Malwarebytes"],
-                total_user_services: 65,
-                total_corporate_services: 0,
-                top_passwords: [
-                    "R************3",
-                    "f*************",
-                    "m*****m",
-                    "Q***********3"
-                ],
-                top_logins: [
-                    "v*********@gmail.com",
-                    "0*******0",
-                    "q***************@hcmut.edu.vn",
-                    "d***********c",
-                    "0*********6"
-                ]
-            }
-        ],
-        total_user_services: 65,
-        total_corporate_services: 0
-    };
+    throw new Error('All CORS proxies failed. Unable to access the API due to network restrictions.');
 }
 
 // ▓▓▓ LOADING MESSAGE UPDATE ▓▓▓
