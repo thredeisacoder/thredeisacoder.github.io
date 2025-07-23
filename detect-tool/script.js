@@ -129,6 +129,8 @@ class SecureAPIManager {
                 return `${baseUrl}/search-by-email?email=${encodeURIComponent(query)}`;
             case 'username':
                 return `${baseUrl}/search-by-username?username=${encodeURIComponent(query)}`;
+            case 'domain':
+                return `${baseUrl}/search-by-domain?domain=${encodeURIComponent(query)}`;
             default:
                 return 'https://httpbin.org/status/404';
         }
@@ -197,15 +199,28 @@ function updateSearchButton(value) {
         searchBtn.innerHTML = '<span class="btn-text">[STANDBY]</span><i class="fas fa-power-off btn-icon"></i>';
     } else {
         searchBtn.disabled = false;
-        const type = isEmail(value) ? 'EMAIL_TARGET' : 'USERNAME_TARGET';
+        let type;
+        if (isEmail(value)) {
+            type = 'EMAIL_TARGET';
+        } else if (isDomain(value)) {
+            type = 'DOMAIN_TARGET';
+        } else {
+            type = 'USERNAME_TARGET';
+        }
         searchBtn.innerHTML = `<span class="btn-text">[SCAN_${type}]</span><i class="fas fa-crosshairs btn-icon"></i>`;
     }
 }
 
-// ▓▓▓ EMAIL VALIDATION PROTOCOL ▓▓▓
+// ▓▓▓ INPUT VALIDATION PROTOCOLS ▓▓▓
 function isEmail(input) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(input);
+}
+
+function isDomain(input) {
+    // Domain regex: supports domain.com, subdomain.domain.com, etc.
+    const domainRegex = /^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
+    return domainRegex.test(input) && !input.includes('@') && !input.includes(' ');
 }
 
 // ▓▓▓ MAIN SEARCH EXECUTION ▓▓▓
@@ -224,7 +239,11 @@ async function handleSearch() {
     
     try {
         const data = await performSearch(query);
-        displayResults(data, query);
+        if (isDomain(query)) {
+            displayDomainResults(data, query);
+        } else {
+            displayResults(data, query);
+        }
     } catch (error) {
         console.error('▓ SEARCH_ERROR:', error);
         
@@ -241,8 +260,14 @@ async function handleSearch() {
 
 // ▓▓▓ SECURE API COMMUNICATION ▓▓▓
 async function performSearch(query) {
-    const isEmailQuery = isEmail(query);
-    const type = isEmailQuery ? 'email' : 'username';
+    let type;
+    if (isEmail(query)) {
+        type = 'email';
+    } else if (isDomain(query)) {
+        type = 'domain';
+    } else {
+        type = 'username';
+    }
     const url = apiManager.generateSecureUrl(type, query);
     
     try {
@@ -453,6 +478,82 @@ function displayResults(data, query) {
     resultsContent.innerHTML = html;
 }
 
+// ▓▓▓ DOMAIN RESULTS DISPLAY SYSTEM ▓▓▓
+function displayDomainResults(data, query) {
+    hideAllSections();
+    resultsSection.classList.remove('hidden');
+    
+    const queryType = 'DOMAIN_TARGET';
+    const hasCompromisedUrls = data.total && data.total > 0;
+    
+    let html = '';
+    
+    if (hasCompromisedUrls) {
+        // Domain statistics
+        html += `
+            <div class="summary-stats">
+                <div class="stat-card">
+                    <div class="stat-number">${data.total}</div>
+                    <div class="stat-label">COMPROMISED_ACCOUNTS</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${data.employees || 0}</div>
+                    <div class="stat-label">EMPLOYEES</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${data.users || 0}</div>
+                    <div class="stat-label">USERS</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${data.totalUrls || 0}</div>
+                    <div class="stat-label">AFFECTED_URLS</div>
+                </div>
+            </div>
+        `;
+        
+        html += `
+            <div class="alert alert-danger">
+                <i class="fas fa-skull-crossbones"></i>
+                <div>
+                    <strong>▓▓▓ DOMAIN_SECURITY_BREACH_DETECTED ▓▓▓</strong><br>
+                    TARGET: <strong>${query}</strong> [${queryType}]<br>
+                    STATUS: <strong>COMPROMISED</strong> • ${data.total} accounts found in stealer databases.<br>
+                    LAST_COMPROMISE: <strong>${new Date(data.last_user_compromised).toLocaleDateString()}</strong><br>
+                    RECOMMENDATION: Domain-wide security audit and credential reset required.
+                </div>
+            </div>
+        `;
+        
+        // Domain intelligence card
+        html += createDomainIntelCard(data);
+        
+        // Compromised URLs
+        if (data.data && data.data.all_urls && data.data.all_urls.length > 0) {
+            html += createCompromisedUrlsCard(data.data.all_urls);
+        }
+        
+        // Stealer families
+        if (data.stealerFamilies) {
+            html += createStealerFamiliesCard(data.stealerFamilies);
+        }
+        
+    } else {
+        html += `
+            <div class="alert alert-success">
+                <i class="fas fa-shield-check"></i>
+                <div>
+                    <strong>▓▓▓ DOMAIN_SECURE ▓▓▓</strong><br>
+                    TARGET: <strong>${query}</strong> [${queryType}]<br>
+                    STATUS: <strong>NOT_COMPROMISED</strong> • No accounts found in stealer databases.<br>
+                    ASSESSMENT: Domain appears secure from known credential theft.
+                </div>
+            </div>
+        `;
+    }
+    
+    resultsContent.innerHTML = html;
+}
+
 // ▓▓▓ THREAT CARD GENERATOR ▓▓▓
 function createStealerCard(stealer, index) {
     const compromiseDate = stealer.date_compromised 
@@ -620,6 +721,133 @@ function createDetailGroup(label, value, icon) {
             <div class="detail-value">${value}</div>
         </div>
     `;
+}
+
+// ▓▓▓ DOMAIN INTELLIGENCE CARD ▓▓▓
+function createDomainIntelCard(data) {
+    let html = `
+        <div class="stealer-card">
+            <div class="stealer-header">
+                <div class="stealer-family">
+                    <i class="fas fa-globe"></i> DOMAIN_INTELLIGENCE [ANALYSIS_001]
+                </div>
+                <div class="compromise-date">
+                    <i class="fas fa-database"></i> TOTAL_STEALERS: ${data.totalStealers ? data.totalStealers.toLocaleString() : 'N/A'}
+                </div>
+            </div>
+            
+            <div class="stealer-details">
+    `;
+    
+    // Domain information
+    if (data.logo) {
+        html += createDetailGroup('DOMAIN_LOGO', `<img src="${data.logo}" alt="Domain Logo" style="max-width: 50px; height: auto;">`, 'fas fa-image');
+    }
+    
+    if (data.is_shopify !== undefined) {
+        html += createDetailGroup('SHOPIFY_PLATFORM', data.is_shopify ? 'DETECTED' : 'NOT_DETECTED', 'fab fa-shopify');
+    }
+    
+    if (data.last_user_compromised && data.last_user_compromised !== '1970-01-01T00:00:00.000Z') {
+        const lastCompromise = new Date(data.last_user_compromised).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        html += createDetailGroup('LAST_USER_COMPROMISE', lastCompromise, 'fas fa-clock');
+    }
+    
+    if (data.last_employee_compromised && data.last_employee_compromised !== '1970-01-01T00:00:00.000Z') {
+        const lastEmpCompromise = new Date(data.last_employee_compromised).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        html += createDetailGroup('LAST_EMPLOYEE_COMPROMISE', lastEmpCompromise, 'fas fa-user-tie');
+    }
+    
+    html += `</div></div>`;
+    
+    return html;
+}
+
+// ▓▓▓ COMPROMISED URLS CARD ▓▓▓
+function createCompromisedUrlsCard(urls) {
+    let html = `
+        <div class="stealer-card">
+            <div class="stealer-header">
+                <div class="stealer-family">
+                    <i class="fas fa-link"></i> COMPROMISED_URLS [TOTAL: ${urls.length}]
+                </div>
+            </div>
+            
+            <div class="compromised-section">
+                <div class="section-header">
+                    <i class="fas fa-exclamation-triangle"></i> AFFECTED_ENDPOINTS [${urls.length}]
+                </div>
+                <div class="credentials-list">
+    `;
+    
+    urls.forEach((urlData, index) => {
+        html += `
+            <div class="credential-item">
+                <div class="credential-label">URL_${String(index + 1).padStart(3, '0')}:</div>
+                <div class="credential-value">${urlData.url}</div>
+            </div>
+            <div class="credential-item">
+                <div class="credential-label">TYPE:</div>
+                <div class="credential-value">${urlData.type}</div>
+            </div>
+            <div class="credential-item">
+                <div class="credential-label">OCCURRENCES:</div>
+                <div class="credential-value">${urlData.occurrence}</div>
+            </div>
+            <div style="height: 10px; border-bottom: 1px solid rgba(255, 0, 64, 0.2); margin: 10px 0;"></div>
+        `;
+    });
+    
+    html += `</div></div></div>`;
+    
+    return html;
+}
+
+// ▓▓▓ STEALER FAMILIES CARD ▓▓▓
+function createStealerFamiliesCard(families) {
+    let html = `
+        <div class="stealer-card">
+            <div class="stealer-header">
+                <div class="stealer-family">
+                    <i class="fas fa-virus"></i> STEALER_FAMILIES [TOTAL: ${families.total}]
+                </div>
+            </div>
+            
+            <div class="compromised-section">
+                <div class="section-header">
+                    <i class="fas fa-biohazard"></i> MALWARE_DISTRIBUTION [${families.total} INFECTIONS]
+                </div>
+                <div class="credentials-list">
+    `;
+    
+    // Remove 'total' from families object and display each family
+    Object.entries(families).forEach(([family, count]) => {
+        if (family !== 'total') {
+            const percentage = ((count / families.total) * 100).toFixed(1);
+            html += `
+                <div class="credential-item">
+                    <div class="credential-label">${family.toUpperCase()}:</div>
+                    <div class="credential-value">${count} (${percentage}%)</div>
+                </div>
+            `;
+        }
+    });
+    
+    html += `</div></div></div>`;
+    
+    return html;
 }
 
 // ▓▓▓ ERROR DISPLAY SYSTEM ▓▓▓
